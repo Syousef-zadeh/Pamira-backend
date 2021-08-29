@@ -6,7 +6,7 @@ const mongoose = require("mongoose");
 const session = require("express-session");
 const fileUpload = require("express-fileupload");
 const serviceModel = require("./model/service");
-const RegistrationModel = require("./model/user");
+const Registration = require("./model/user");
 
 require("dotenv").config({ path: "./config/keys.env" });
 
@@ -14,6 +14,10 @@ var app = express();
 app.use(cors());
 
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.send("hello");
+});
 
 app.post("/add-services", (req, res) => {
   console.log("Hi");
@@ -28,19 +32,17 @@ app.post("/add-services", (req, res) => {
 });
 
 app.post("/sign-up", (req, res) => {
-    console.log("Hi");
-    const newUser = {
-      username: "Admin",
-      password: "Parsa1373",
-      type: "Admin"
-    };
-    const signup = new RegistrationModel(newUser);
-    console.log(signup);
-    signup.save();
-  });
+  console.log("Hi");
+  const newUser = {
+    username: "Admin",
+    password: "Parsa1373",
+    type: "Admin",
+  };
+  const signup = new Registration(newUser);
+  console.log(signup);
+  signup.save();
+});
 
-
-//  app.get('/', (req, res) => res.send('hello world'));
 app.get("/services", (req, res) => {
   serviceModel.find((err, foundServices) => {
     if (!err) {

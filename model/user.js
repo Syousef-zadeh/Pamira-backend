@@ -32,19 +32,6 @@ userSchema.pre("save", function(next){
             })
             .catch((err) => console.log(`Error occure when hashing ${err}`));
 
-
-//   bcrypt
-//     .getSalt(10)
-//     .then((salt) => {
-//       bcrypt
-//         .hash(this.password, salt)
-//         .then((encryptPassword) => {
-//           this.password = encryptPassword;
-//           next();
-//         })
-//         .catch((err) => console.log(`Error occure when hashing ${err}`));
-//     })
-//     .catch((err) => console.log(`Error occure when salting ${err}`));
 });
-const RegistrationModel = mongoose.model("RegistrationModel", userSchema);
-module.exports = RegistrationModel;
+const Registration = mongoose.model("Registration", userSchema);
+module.exports = Registration;
