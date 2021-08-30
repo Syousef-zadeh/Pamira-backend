@@ -10,7 +10,7 @@ const Registration = require("./model/user");
 
 require("dotenv").config({ path: "./config/keys.env" });
 
-var app = express();
+const app = express();
 app.use(cors());
 
 app.use(express.json());
@@ -43,25 +43,32 @@ app.post("/sign-up", (req, res) => {
   signup.save();
 });
 
-
+// app.get("/services", (req, res) => {
+//     serviceModel.find((err, foundServices) => {
+//     if (!err) {
+//       res.send(foundServices);
+//     } else {
+//       res.send(err);
+//     }
+//   });
+// });
 
 app.get("/services", (req, res) => {
-    serviceModel.find((err, foundServices) => {
-    if (!err) {
-      res.send(foundServices);
-    } else {
-      res.send(err);
-    }
-  });
+  serviceModel.find().then((service) => {
+    const filterServices = service.map((srv) => {
+      return {
+        id: srv._id,
+        serviceName: srv.serviceName,
+        serviceDescription: srv.serviceDescription,
+        serviceImage: srv.serviceImage,
+      };
+    });
+    res.render("services/service", {
+      data: filterServices,
+    });
+  })
+  .catch(err=>console.log(`Error happened when pulling from the database :${err}`));
 });
-
-// app.get("/services", (req,res)=>{
-//     serviceModel.find().then((service)=>{
-//         return{
-//             id
-//         }
-//     })
-// })
 
 app.use(fileUpload());
 app.use(
