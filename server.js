@@ -43,15 +43,7 @@ app.post("/sign-up", (req, res) => {
   signup.save();
 });
 
-app.get("/login", (req, res) => {
-    Registration.find((err, founduser) => {
-    if (!err) {
-      res.send(founduser);
-    } else {
-      res.send(err);
-    }
-  });
-});
+
 
 app.get("/services", (req, res) => {
     serviceModel.find((err, foundServices) => {
@@ -62,6 +54,14 @@ app.get("/services", (req, res) => {
     }
   });
 });
+
+// app.get("/services", (req,res)=>{
+//     serviceModel.find().then((service)=>{
+//         return{
+//             id
+//         }
+//     })
+// })
 
 app.use(fileUpload());
 app.use(
