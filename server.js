@@ -9,8 +9,7 @@ const session = require("express-session");
 const fileUpload = require("express-fileupload");
 const serviceModel = require("./model/service.js");
 const Registration = require("./model/user.js");
-
-const data = dataService(mongoDBConnectionString);
+const data = serviceModel(mongoDBConnectionString);
 require("dotenv").config({ path: "./config/keys.env" });
 
 const app = express();
