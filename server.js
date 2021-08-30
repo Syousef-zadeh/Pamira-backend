@@ -1,5 +1,3 @@
-const mongoDBConnectionString = 'mongodb+srv://pamira_db:Pamira_7394@cluster0.yv7w5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
-
 const express = require("express");
 const cors = require("cors");
 //const bodyParser = require('body-parser');
@@ -9,7 +7,7 @@ const session = require("express-session");
 const fileUpload = require("express-fileupload");
 const serviceModel = require("./model/service.js");
 const Registration = require("./model/user.js");
-const data = serviceModel(mongoDBConnectionString);
+
 require("dotenv").config({ path: "./config/keys.env" });
 
 const app = express();
@@ -17,9 +15,9 @@ app.use(cors());
 
 app.use(express.json());
 
-// app.get("/", (req, res) => {
-//   res.send("hello");
-// });
+app.get("/", (req, res) => {
+  res.send("hello");
+});
 
 app.post("/add-services", (req, res) => {
   console.log("Hi");
@@ -46,21 +44,14 @@ app.post("/sign-up", (req, res) => {
 });
 
 app.get("/services", function(req, res) {
-  //   serviceModel.find((err, foundServices) => {
-  //   if (!err) {
-  //     res.send(foundServices);
-  //     console.log(foundServices);
-  //   } else {
-  //     res.send(err);
-  //   }
-  // });
-
-  data.getServices().then((data)=>{
-    res.json(data);
-})
-.catch((err)=>{
-    res.json({message: `an error occurred: ${err}`});
-})
+    serviceModel.find((err, foundServices) => {
+    if (!err) {
+      res.send(foundServices);
+      console.log(foundServices);
+    } else {
+      res.send(err);
+    }
+  });
 });
 
 // app.get("/services", (req, res) => {
