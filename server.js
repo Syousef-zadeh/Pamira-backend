@@ -47,6 +47,7 @@ app.get("/services", (req, res) => {
     serviceModel.find((err, foundServices) => {
     if (!err) {
       res.send(foundServices);
+      console.log(foundServices);
     } else {
       res.send(err);
     }
