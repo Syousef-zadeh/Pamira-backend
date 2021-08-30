@@ -15,9 +15,9 @@ app.use(cors());
 
 app.use(express.json());
 
-app.get("/", (req, res) => {
-  res.send("hello");
-});
+// app.get("/", (req, res) => {
+//   res.send("hello");
+// });
 
 app.post("/add-services", (req, res) => {
   console.log("Hi");
@@ -43,7 +43,7 @@ app.post("/sign-up", (req, res) => {
   signup.save();
 });
 
-app.get("/services", function(req, res) {
+app.get("/api/services", function(req, res) {
     serviceModel.find((err, foundServices) => {
     if (!err) {
       res.send(foundServices);
@@ -52,7 +52,6 @@ app.get("/services", function(req, res) {
       res.send(err);
     }
   });
-
 });
 
 // app.get("/services", (req, res) => {
