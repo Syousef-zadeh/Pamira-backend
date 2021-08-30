@@ -44,14 +44,15 @@ app.post("/sign-up", (req, res) => {
 });
 
 app.get("/services", (req, res) => {
-    serviceModel.find((err, foundServices) => {
-    if (!err) {
-      res.send(foundServices);
-      console.log(foundServices);
-    } else {
-      res.send(err);
-    }
-  });
+  //   serviceModel.find((err, foundServices) => {
+  //   if (!err) {
+  //     res.send(foundServices);
+  //     console.log(foundServices);
+  //   } else {
+  //     res.send(err);
+  //   }
+  // });
+  res.send("Hi");
 });
 
 // app.get("/services", (req, res) => {
