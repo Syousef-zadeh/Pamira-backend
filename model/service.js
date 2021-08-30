@@ -6,8 +6,7 @@ const serviceSchema = new Schema({
         type: Date,
         default: Date.now()
     },
-      const [img, setImg] = useState(null);
-:
+    serviceName:
     {
         type: String,
         required: true 

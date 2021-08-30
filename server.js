@@ -43,15 +43,15 @@ app.post("/sign-up", (req, res) => {
   signup.save();
 });
 
-// app.get("/services", (req, res) => {
-//     serviceModel.find((err, foundServices) => {
-//     if (!err) {
-//       res.send(foundServices);
-//     } else {
-//       res.send(err);
-//     }
-//   });
-// });
+app.get("/services", (req, res) => {
+    serviceModel.find((err, foundServices) => {
+    if (!err) {
+      res.send(foundServices);
+    } else {
+      res.send(err);
+    }
+  });
+});
 
 // app.get("/services", (req, res) => {
 //   serviceModel.find().then((service) => {
