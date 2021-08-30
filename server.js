@@ -43,8 +43,18 @@ app.post("/sign-up", (req, res) => {
   signup.save();
 });
 
+app.get("/login", (req, res) => {
+    Registration.find((err, founduser) => {
+    if (!err) {
+      res.send(founduser);
+    } else {
+      res.send(err);
+    }
+  });
+});
+
 app.get("/services", (req, res) => {
-  serviceModel.find((err, foundServices) => {
+    serviceModel.find((err, foundServices) => {
     if (!err) {
       res.send(foundServices);
     } else {
