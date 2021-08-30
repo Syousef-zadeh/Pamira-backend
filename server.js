@@ -1,3 +1,5 @@
+const mongoDBConnectionString = 'mongodb+srv://pamira_db:Pamira_7394@cluster0.yv7w5.mongodb.net/myFirstDatabase?retryWrites=true&w=majority';
+
 const express = require("express");
 const cors = require("cors");
 //const bodyParser = require('body-parser');
@@ -8,6 +10,7 @@ const fileUpload = require("express-fileupload");
 const serviceModel = require("./model/service.js");
 const Registration = require("./model/user.js");
 
+const data = dataService(mongoDBConnectionString);
 require("dotenv").config({ path: "./config/keys.env" });
 
 const app = express();
@@ -44,14 +47,21 @@ app.post("/sign-up", (req, res) => {
 });
 
 app.get("/services", function(req, res) {
-    serviceModel.find((err, foundServices) => {
-    if (!err) {
-      res.send(foundServices);
-      console.log(foundServices);
-    } else {
-      res.send(err);
-    }
-  });
+  //   serviceModel.find((err, foundServices) => {
+  //   if (!err) {
+  //     res.send(foundServices);
+  //     console.log(foundServices);
+  //   } else {
+  //     res.send(err);
+  //   }
+  // });
+
+  data.getServices().then((data)=>{
+    res.json(data);
+})
+.catch((err)=>{
+    res.json({message: `an error occurred: ${err}`});
+})
 });
 
 // app.get("/services", (req, res) => {
