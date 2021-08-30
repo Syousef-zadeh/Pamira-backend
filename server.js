@@ -5,8 +5,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const fileUpload = require("express-fileupload");
-const serviceModel = require("./model/service.js");
-const Registration = require("./model/user.js");
+const serviceModel = require("./model/service");
+const Registration = require("./model/user");
 
 require("dotenv").config({ path: "./config/keys.env" });
 
