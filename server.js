@@ -53,22 +53,22 @@ app.post("/sign-up", (req, res) => {
 //   });
 // });
 
-app.get("/services", (req, res) => {
-  serviceModel.find().then((service) => {
-    const filterServices = service.map((srv) => {
-      return {
-        id: srv._id,
-        serviceName: srv.serviceName,
-        serviceDescription: srv.serviceDescription,
-        serviceImage: srv.serviceImage,
-      };
-    });
-    res.render("services/service", {
-      data: filterServices,
-    });
-  })
-  .catch(err=>console.log(`Error happened when pulling from the database :${err}`));
-});
+// app.get("/services", (req, res) => {
+//   serviceModel.find().then((service) => {
+//     const filterServices = service.map((srv) => {
+//       return {
+//         id: srv._id,
+//         serviceName: srv.serviceName,
+//         serviceDescription: srv.serviceDescription,
+//         serviceImage: srv.serviceImage,
+//       };
+//     });
+//     res.render("services/service", {
+//       data: filterServices,
+//     });
+//   })
+//   .catch(err=>console.log(`Error happened when pulling from the database :${err}`));
+// });
 
 app.use(fileUpload());
 app.use(
