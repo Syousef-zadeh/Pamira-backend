@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-//const bodyParser = require('body-parser');
+const bodyParser = require('body-parser');
 // const uuid =require('uuid/v4');
 const mongoose = require("mongoose");
 const session = require("express-session");
@@ -12,17 +12,17 @@ require("dotenv").config({ path: "./config/keys.env" });
 
 const app = express();
 app.use(cors());
-
+app.use(bodyParser.json());
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("hello");
 });
 
-app.post("/add-services", (req, res) => {
+app.post("/services/add", (req, res) => {
   console.log("Hi");
   const newService = {
-    serviceName: "Botox",
+    serviceName: "filler",
     serviceDescription: "very very good!",
     serviceImage: "",
   };
