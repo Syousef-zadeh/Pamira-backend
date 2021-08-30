@@ -43,15 +43,18 @@ app.post("/sign-up", (req, res) => {
   signup.save();
 });
 
-app.get("/services", function(req, res) {
+app.get("/services", (req, res) => {
     serviceModel.find((err, foundServices) => {
-    if (!err) {
-      res.send(foundServices);
+      res.send("Hi");
       console.log(foundServices);
-    } else {
-      res.send(err);
-    }
+    // if (!err) {
+    //   res.send(foundServices);
+    //   console.log(foundServices);
+    // } else {
+    //   res.send(err);
+    // }
   });
+
 });
 
 // app.get("/services", (req, res) => {
