@@ -5,8 +5,8 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const fileUpload = require("express-fileupload");
-const serviceModel = require("./model/service");
-const Registration = require("./model/user");
+const serviceModel = require("./model/service.js");
+const Registration = require("./model/user.js");
 
 require("dotenv").config({ path: "./config/keys.env" });
 
@@ -43,7 +43,7 @@ app.post("/sign-up", (req, res) => {
   signup.save();
 });
 
-app.get("/api/services", function(req, res) {
+app.get("/services", function(req, res) {
     serviceModel.find((err, foundServices) => {
     if (!err) {
       res.send(foundServices);
