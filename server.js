@@ -69,14 +69,14 @@ app.post("/sign-up", (req, res) => {
   signup.save();
 });
 
-app.get("/dashboard", (req, res) => {
-  res.redirect("/dashboard");
-});
+// app.get("/dashboard", (req, res) => {
+//   res.redirect("/dashboard");
+// });
 
 app.post("/dashboard", (req, res) => {
   // let usernameErr = [];
   // let passwordErr = [];
-
+console.log(req.body);
   // if (req.body.username == "") {
   //   usernameErr.push("Please enter your username");
   // }
@@ -91,8 +91,10 @@ app.post("/dashboard", (req, res) => {
   //     userErr: usernameErr,
   //   });
    //} else {
-    Registration.findOne({ username: req.body.username })
-      .then((uaer) => {
+    //  console.log(req.body.username);
+    Registration.findOne({ username: req.body.username})
+      .then((user) => {
+        
         const error = [];
         if (user == null) {
           error.push("Sorry your username and/or password not found");
@@ -118,27 +120,27 @@ app.post("/dashboard", (req, res) => {
         }
       })
       .catch((err) => console.log(`Error ${err}`));
-  //}
+  // }
 });
 
-// app.get("/dashboard/profile")
+app.get("/dashboard/profile")
 
-// app.get("/services", (req, res) => {
-//   serviceModel.find().then((service) => {
-//     const filterServices = service.map((srv) => {
-//       return {
-//         id: srv._id,
-//         serviceName: srv.serviceName,
-//         serviceDescription: srv.serviceDescription,
-//         serviceImage: srv.serviceImage,
-//       };
-//     });
-//     res.render("services/service", {
-//       data: filterServices,
-//     });
-//   })
-//   .catch(err=>console.log(`Error happened when pulling from the database :${err}`));
-// });
+app.get("/services", (req, res) => {
+  serviceModel.find().then((service) => {
+    const filterServices = service.map((srv) => {
+      return {
+        id: srv._id,
+        serviceName: srv.serviceName,
+        serviceDescription: srv.serviceDescription,
+        serviceImage: srv.serviceImage,
+      };
+    });
+    res.render("services/service", {
+      data: filterServices,
+    });
+  })
+  .catch(err=>console.log(`Error happened when pulling from the database :${err}`));
+});
 
 app.use(fileUpload());
 app.use(
