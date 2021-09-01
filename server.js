@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
+const bcrypt = require("bcryptjs");
 const bodyParser = require("body-parser");
 // const uuid =require('uuid/v4');
 const mongoose = require("mongoose");
@@ -16,8 +17,7 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 
-
-
+//services
 app.get("/", (req, res) => {
   res.send("hello");
 });
@@ -46,6 +46,17 @@ app.post("/services/add", (req, res) => {
   });
 });
 
+app.get("/services", (req, res) => {
+  serviceModel.find({}, (err, foundServices) => {
+    if (!err) {
+      res.json(foundServices);
+      console.log(foundServices);
+    } else {
+      res.send(err);
+    }
+  });
+});
+
 app.post("/sign-up", (req, res) => {
   console.log("Hi");
   const newUser = {
@@ -58,16 +69,59 @@ app.post("/sign-up", (req, res) => {
   signup.save();
 });
 
-app.get("/services", (req, res) => {
-  serviceModel.find({}, (err, foundServices) => {
-    if (!err) {
-      res.json(foundServices);
-      console.log(foundServices);
-    } else {
-      res.send(err);
-    }
-  });
+app.get("/dashboard", (req, res) => {
+  res.redirect("/dashboard");
 });
+
+app.post("/dashboard", (req, res) => {
+  // let usernameErr = [];
+  // let passwordErr = [];
+
+  // if (req.body.username == "") {
+  //   usernameErr.push("Please enter your username");
+  // }
+
+  // if (req.body.password == "") {
+  //   passwordErr.push("Please enter your password");
+  // }
+
+  // if (usernameErr != 0 || passwordErr != 0) {
+  //   res.render("/administrator/login", {
+  //     psassErr: passwordErr,
+  //     userErr: usernameErr,
+  //   });
+   //} else {
+    Registration.findOne({ username: req.body.username })
+      .then((uaer) => {
+        const error = [];
+        if (user == null) {
+          error.push("Sorry your username and/or password not found");
+          res.render("/dashboard", {
+            error,
+          });
+        } else {
+          bcrypt
+            .compare(req.body.password, user.password)
+            .then((isMatch) => {
+              if (isMatch) {
+                req.session.userDocument = user;
+                res.redirect("/dashboard");
+              } else {
+                const paswordError = [];
+                passwordError.push("Sorry your password is incorrect");
+                res.render("dashboard", {
+                  passwordError,
+                });
+              }
+            })
+            .catch((err) => console.log(`Error1 GOV2 ${err}`));
+        }
+      })
+      .catch((err) => console.log(`Error ${err}`));
+  //}
+});
+
+// app.get("/dashboard/profile")
 
 // app.get("/services", (req, res) => {
 //   serviceModel.find().then((service) => {
