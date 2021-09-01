@@ -7,8 +7,6 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const fileUpload = require("express-fileupload");
-const serviceModel = require("./model/service");
-const Registration = require("./model/user");
 
 require("dotenv").config({ path: "./config/keys.env" });
 
@@ -17,130 +15,18 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.json());
 
-//services
-app.get("/", (req, res) => {
-  res.send("hello");
-});
+const userController = require("./controllers/user");
+const serviceController = require("./controllers/services");
 
-app.post("/services/add", (req, res) => {
-  console.log("Hi");
-  const newService = {
-    serviceName: "skin care",
-    serviceDescription: "",
-    serviceImage: "../01-starting-project/src/assets/skincare.jpg",
-  };
-  const service = new serviceModel(newService);
-  console.log(service);
-  service.save().then((service) => {
-    req.files.photos.name = `pro_pic_${service._id}${
-      path.parse(req.files.photos.name).ext
-    }`;
-    req.files.photos.mv(`public/uploads/${req.files.photos.name}`).then(() => {
-      serviceModel.updateOne(
-        { _id: service._id },
-        {
-          serviceImage: req.files.photos.name,
-        }
-      );
-    });
-  });
-});
+// app.use((req, res, next) => {
+//   if (req.query.method == "PUT") {
+//     req.method = "PUT";
+//   } else if (req.query.method == "DELETE") {
+//     req.method = "DELETE";
+//   }
 
-app.get("/services", (req, res) => {
-  serviceModel.find({}, (err, foundServices) => {
-    if (!err) {
-      res.json(foundServices);
-      console.log(foundServices);
-    } else {
-      res.send(err);
-    }
-  });
-});
-
-app.post("/sign-up", (req, res) => {
-  console.log("Hi");
-  const newUser = {
-    username: "Admin",
-    password: "Parsa1373",
-    type: "Admin",
-  };
-  const signup = new Registration(newUser);
-  console.log(signup);
-  signup.save();
-});
-
-// app.get("/dashboard", (req, res) => {
-//   res.redirect("/dashboard");
+//   next();
 // });
-
-app.post("/dashboard", (req, res) => {
-  // let usernameErr = [];
-  // let passwordErr = [];
-console.log(req.body);
-  // if (req.body.username == "") {
-  //   usernameErr.push("Please enter your username");
-  // }
-
-  // if (req.body.password == "") {
-  //   passwordErr.push("Please enter your password");
-  // }
-
-  // if (usernameErr != 0 || passwordErr != 0) {
-  //   res.render("/administrator/login", {
-  //     psassErr: passwordErr,
-  //     userErr: usernameErr,
-  //   });
-   //} else {
-    //  console.log(req.body.username);
-    Registration.findOne({ username: req.body.username})
-      .then((user) => {
-        
-        const error = [];
-        if (user == null) {
-          error.push("Sorry your username and/or password not found");
-          res.render("/dashboard", {
-            error,
-          });
-        } else {
-          bcrypt
-            .compare(req.body.password, user.password)
-            .then((isMatch) => {
-              if (isMatch) {
-                req.session.userDocument = user;
-                res.redirect("/dashboard");
-              } else {
-                const paswordError = [];
-                passwordError.push("Sorry your password is incorrect");
-                res.render("dashboard", {
-                  passwordError,
-                });
-              }
-            })
-            .catch((err) => console.log(`Error1 GOV2 ${err}`));
-        }
-      })
-      .catch((err) => console.log(`Error ${err}`));
-  // }
-});
-
-app.get("/dashboard/profile")
-
-app.get("/services", (req, res) => {
-  serviceModel.find().then((service) => {
-    const filterServices = service.map((srv) => {
-      return {
-        id: srv._id,
-        serviceName: srv.serviceName,
-        serviceDescription: srv.serviceDescription,
-        serviceImage: srv.serviceImage,
-      };
-    });
-    res.render("services/service", {
-      data: filterServices,
-    });
-  })
-  .catch(err=>console.log(`Error happened when pulling from the database :${err}`));
-});
 
 app.use(fileUpload());
 app.use(
@@ -150,6 +36,17 @@ app.use(
     saveUninitialized: true,
   })
 );
+
+app.use("/", serviceController);
+app.use("/user", userController);
+
+app.use((req, res, next) => {
+  //res.locals.user is a global handlebars variable. This means that ever single handlebars file can access
+  //that user variable
+  res.locals.user = req.session.userDoc;
+  next();
+});
+
 
 mongoose
   .connect(process.env.Mongo_DB_URL, {
