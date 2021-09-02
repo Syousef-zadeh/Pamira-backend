@@ -24,8 +24,10 @@
     "enc": "^0.4.0",
     "env": "^0.0.2",
     "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
     "express-fileupload": "^1.2.1",
     "express-session": "^1.17.2",
+    "jsonwebtoken": "^8.5.1",
     "mongodb": "^4.1.1",
     "mongoose": "^6.0.2",
     "uuid": "^8.3.2"
