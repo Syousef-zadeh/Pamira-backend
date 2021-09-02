@@ -2,7 +2,6 @@ const express = require("express");
 const cors = require("cors");
 const path = require("path");
 const bcrypt = require("bcryptjs");
-
 const bodyParser = require("body-parser");
 // const uuid =require('uuid/v4');
 const mongoose = require("mongoose");
@@ -18,7 +17,8 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(express.json());
-// app.set('view engine', 'js');
+
+// app.set('view engine', 'ejs');
 
 //services
 app.get("/", (req, res) => {
