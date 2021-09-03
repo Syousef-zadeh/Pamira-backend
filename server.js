@@ -20,11 +20,9 @@ app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(express.json());
 
-// app.set('view engine', 'ejs');
 
-//services
 app.get("/", (req, res) => {
-  res.send("hello");
+  res.send("hiiii");
 });
 
 app.post("/services/add", (req, res) => {
