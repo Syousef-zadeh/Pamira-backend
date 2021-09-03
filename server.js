@@ -62,17 +62,17 @@ app.get("/services", (req, res) => {
   });
 });
 
-app.post("/sign-up", (req, res) => {
-  console.log("Hi");
-  const newUser = {
-    username: "Admin",
-    password: "Parsa1373",
-    type: "Admin",
-  };
-  const signup = new Registration(newUser);
-  console.log(signup);
-  signup.save();
-});
+// app.post("/sign-up", (req, res) => {
+//   console.log("Hi");
+//   const newUser = {
+//     username: "Admin",
+//     password: "Parsa1373",
+//     type: "Admin",
+//   };
+//   const signup = new Registration(newUser);
+//   console.log(signup);
+//   signup.save();
+// });
 
 app.get("/dashboard", (req, res) => {
   res.redirect("/dashboard");
