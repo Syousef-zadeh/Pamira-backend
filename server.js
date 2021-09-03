@@ -7,8 +7,10 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const session = require("express-session");
 const fileUpload = require("express-fileupload");
+const userRoutes = require("./routes/userRouts");
 const serviceModel = require("./model/service");
 const Registration = require("./model/user");
+const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 
 require("dotenv").config({ path: "./config/keys.env" });
 
@@ -76,74 +78,81 @@ app.get("/dashboard", (req, res) => {
   res.redirect("/dashboard");
 });
 
-app.post("/dashboard", (req, res) => {
-  // let usernameErr = [];
-  // let passwordErr = [];
-console.log(req.body);
-  // if (req.body.username == "") {
-  //   usernameErr.push("Please enter your username");
-  // }
+// app.post("/dashboard", (req, res) => {
+//   // let usernameErr = [];
+//   // let passwordErr = [];
+//   console.log(req.body);
+//   // if (req.body.username == "") {
+//   //   usernameErr.push("Please enter your username");
+//   // }
 
-  // if (req.body.password == "") {
-  //   passwordErr.push("Please enter your password");
-  // }
+//   // if (req.body.password == "") {
+//   //   passwordErr.push("Please enter your password");
+//   // }
 
-  // if (usernameErr != 0 || passwordErr != 0) {
-  //   res.render("/administrator/login", {
-  //     psassErr: passwordErr,
-  //     userErr: usernameErr,
-  //   });
-   //} else {
-    //  console.log(req.body.username);
-    Registration.findOne({ username: req.body.username})
-      .then((user) => {
-        
-        const error = [];
-        if (user == null) {
-          error.push("Sorry your username and/or password not found");
-          res.render("/dashboard", {
-            error,
-          });
-        } else {
-          bcrypt
-            .compare(req.body.password, user.password)
-            .then((isMatch) => {
-              if (isMatch) {
-                req.session.userDocument = user;
-                res.redirect("/dashboard");
-              } else {
-                const passwordError = [];
-                passwordError.push("Sorry your password is incorrect");
-                res.render("dashboard", {
-                  passwordError,
-                });
-              }
-            })
-            .catch((err) => console.log(`Error1 GOV2 ${err}`));
-        }
-      })
-      .catch((err) => console.log(`Error ${err}`));
-  // }
-});
+//   // if (usernameErr != 0 || passwordErr != 0) {
+//   //   res.render("/administrator/login", {
+//   //     psassErr: passwordErr,
+//   //     userErr: usernameErr,
+//   //   });
+//   //} else {
+//   //  console.log(req.body.username);
+//   Registration.findOne({ username: req.body.username })
+//     .then((user) => {
+//       const error = [];
+//       if (user == null) {
+//         error.push("Sorry your username and/or password not found");
+//         res.render("/dashboard", {
+//           error,
+//         });
+//       } else {
+//         bcrypt
+//           .compare(req.body.password, user.password)
+//           .then((isMatch) => {
+//             if (isMatch) {
+//               req.session.userDocument = user;
+//               res.redirect("/dashboard");
+//             } else {
+//               const passwordError = [];
+//               passwordError.push("Sorry your password is incorrect");
+//               res.render("dashboard", {
+//                 passwordError,
+//               });
+//             }
+//           })
+//           .catch((err) => console.log(`Error1 GOV2 ${err}`));
+//       }
+//     })
+//     .catch((err) => console.log(`Error ${err}`));
+//   // }
+// });
 
-app.get("/dashboard/profile")
+app.get("/dashboard/profile");
 
 app.get("/services", (req, res) => {
-  serviceModel.find().then((service) => {
-    const filterServices = service.map((srv) => {
-      return {
-        id: srv._id,
-        serviceName: srv.serviceName,
-        serviceDescription: srv.serviceDescription,
-        serviceImage: srv.serviceImage,
-      };
-    });
-    res.render("services/service", {
-      data: filterServices,
-    });
-  })
-  .catch(err=>console.log(`Error happened when pulling from the database :${err}`));
+  serviceModel
+    .find()
+    .then((service) => {
+      const filterServices = service.map((srv) => {
+        return {
+          id: srv._id,
+          serviceName: srv.serviceName,
+          serviceDescription: srv.serviceDescription,
+          serviceImage: srv.serviceImage,
+        };
+      });
+      res.render("services/service", {
+        data: filterServices,
+      });
+    })
+    .catch((err) =>
+      console.log(`Error happened when pulling from the database :${err}`)
+    );
 });
+
+app.use("/api/users", userRoutes);
+app.use(notFound)
+app.use(errorHandler)
 
 app.use(fileUpload());
 app.use(

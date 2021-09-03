@@ -22,16 +22,18 @@ const userSchema = new Schema({
   },
 });
 
-userSchema.pre("save", function(next){
-    console.log(this.password)
-    bcrypt.hash(this.password, 10)
-            .then((encryptPassword) => {
-                console.log(encryptPassword);
-              this.password = encryptPassword;
-              next();
-            })
-            .catch((err) => console.log(`Error occure when hashing ${err}`));
+userSchema.pre("save", async function (next) {
 
+  if (!this.isModified("password")) {
+    next();
+  }
+  const salt = await bcrypt.genSalt(10);
+  this.password = await bcrypt.hash(this.password, salt);
 });
+
+userSchema.methods.matchPassword = async function (enteredPassword) {
+  return await bcrypt.compare(enteredPassword, this.password);
+};
+
 const Registration = mongoose.model("Registration", userSchema);
 module.exports = Registration;
