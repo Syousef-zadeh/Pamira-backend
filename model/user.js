@@ -23,14 +23,7 @@ const userSchema = new Schema({
 });
 
 userSchema.pre("save", async function (next) {
-  // console.log(this.password)
-  // bcrypt.hash(this.password, 10)
-  //         .then((encryptPassword) => {
-  //             console.log(encryptPassword);
-  //           this.password = encryptPassword;
-  //           next();
-  //         })
-  //         .catch((err) => console.log(`Error occure when hashing ${err}`));
+
   if (!this.isModified("password")) {
     next();
   }

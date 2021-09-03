@@ -62,11 +62,6 @@ app.get("/services", (req, res) => {
   });
 });
 
-// app.get("/service/:id",(req, res)=>{
-//   const service = serviceModel.find((n)=>n.id === req.params.id);
-//   res.send(service);
-// })
-
 app.post("/sign-up", (req, res) => {
   console.log("Hi");
   const newUser = {
