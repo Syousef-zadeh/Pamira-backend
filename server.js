@@ -72,10 +72,6 @@ app.get("/services", (req, res) => {
 //   signup.save();
 // });
 
-app.get("/dashboard", (req, res) => {
-  res.redirect("/dashboard");
-});
-
 // app.post("/dashboard", (req, res) => {
 //   // let usernameErr = [];
 //   // let passwordErr = [];
@@ -127,26 +123,26 @@ app.get("/dashboard", (req, res) => {
 
 app.get("/dashboard/profile");
 
-app.get("/services", (req, res) => {
-  serviceModel
-    .find()
-    .then((service) => {
-      const filterServices = service.map((srv) => {
-        return {
-          id: srv._id,
-          serviceName: srv.serviceName,
-          serviceDescription: srv.serviceDescription,
-          serviceImage: srv.serviceImage,
-        };
-      });
-      res.render("services/service", {
-        data: filterServices,
-      });
-    })
-    .catch((err) =>
-      console.log(`Error happened when pulling from the database :${err}`)
-    );
-});
+// app.get("/services", (req, res) => {
+//   serviceModel
+//     .find()
+//     .then((service) => {
+//       const filterServices = service.map((srv) => {
+//         return {
+//           id: srv._id,
+//           serviceName: srv.serviceName,
+//           serviceDescription: srv.serviceDescription,
+//           serviceImage: srv.serviceImage,
+//         };
+//       });
+//       res.render("services/service", {
+//         data: filterServices,
+//       });
+//     })
+//     .catch((err) =>
+//       console.log(`Error happened when pulling from the database :${err}`)
+//     );
+// });
 
 aap.use("/api/services", serviceRoutes);
 
