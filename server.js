@@ -11,6 +11,7 @@ const userRoutes = require("./routes/userRouts");
 const serviceModel = require("./model/service");
 const Registration = require("./model/user");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
+const serviceRoutes = require("./routes/serviceRoutes");
 
 require("dotenv").config({ path: "./config/keys.env" });
 
@@ -19,7 +20,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(express.json());
-
 
 app.get("/", (req, res) => {
   res.send("hiiii");
@@ -72,10 +72,6 @@ app.get("/services", (req, res) => {
 //   signup.save();
 // });
 
-app.get("/dashboard", (req, res) => {
-  res.redirect("/dashboard");
-});
-
 // app.post("/dashboard", (req, res) => {
 //   // let usernameErr = [];
 //   // let passwordErr = [];
@@ -127,30 +123,32 @@ app.get("/dashboard", (req, res) => {
 
 app.get("/dashboard/profile");
 
-app.get("/services", (req, res) => {
-  serviceModel
-    .find()
-    .then((service) => {
-      const filterServices = service.map((srv) => {
-        return {
-          id: srv._id,
-          serviceName: srv.serviceName,
-          serviceDescription: srv.serviceDescription,
-          serviceImage: srv.serviceImage,
-        };
-      });
-      res.render("services/service", {
-        data: filterServices,
-      });
-    })
-    .catch((err) =>
-      console.log(`Error happened when pulling from the database :${err}`)
-    );
-});
+// app.get("/services", (req, res) => {
+//   serviceModel
+//     .find()
+//     .then((service) => {
+//       const filterServices = service.map((srv) => {
+//         return {
+//           id: srv._id,
+//           serviceName: srv.serviceName,
+//           serviceDescription: srv.serviceDescription,
+//           serviceImage: srv.serviceImage,
+//         };
+//       });
+//       res.render("services/service", {
+//         data: filterServices,
+//       });
+//     })
+//     .catch((err) =>
+//       console.log(`Error happened when pulling from the database :${err}`)
+//     );
+// });
+
+app.use("/api/services", serviceRoutes);
 
 app.use("/api/users", userRoutes);
-app.use(notFound)
-app.use(errorHandler)
+app.use(notFound);
+app.use(errorHandler);
 
 app.use(fileUpload());
 app.use(

@@ -1,25 +1,21 @@
-const mongoose =require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const serviceSchema = new Schema({
-    dateCreation:
-    {
-        type: Date,
-        default: Date.now()
-    },
-    serviceName:
-    {
-        type: String,
-        required: true 
-    },
-    serviceDescription:
-    {
-        type: String,
-        
-    },
-    serviceImage:
-    {
-        type: String
-    }
+  dateCreation: {
+    type: Date,
+    default: Date.now(),
+  },
+  serviceName: {
+    type: String,
+    required: true,
+  },
+  serviceDescription: {
+    type: String,
+  },
+  serviceImage: {
+    type: String,
+   // required: true,
+  },
 });
-const serviceModel = mongoose.model('Service', serviceSchema);
+const serviceModel = mongoose.model("Service", serviceSchema);
 module.exports = serviceModel;

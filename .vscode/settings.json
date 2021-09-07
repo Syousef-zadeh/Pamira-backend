@@ -1,0 +1,4 @@
+{
+    "eslint.format.enable": true,
+    "output.smartScroll.enabled": false
+}
