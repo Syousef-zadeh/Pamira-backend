@@ -144,7 +144,7 @@ app.get("/dashboard/profile");
 //     );
 // });
 
-aap.use("/api/services", serviceRoutes);
+app.use("/api/services", serviceRoutes);
 
 app.use("/api/users", userRoutes);
 app.use(notFound);

@@ -18,8 +18,8 @@ const serviceAdd =
   (upload.single("serviceImage"),
   (req, res) => {
     const newService = new servicModel({
-      name: req.body.serviceName,
-      description: req.body.serviceDescription,
+      serviceName: req.body.serviceName,
+      serviceDescription: req.body.serviceDescription,
       serviceImage: req.file.originalname,
     });
     newService
