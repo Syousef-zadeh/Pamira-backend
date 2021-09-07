@@ -1,0 +1,1 @@
+const servicModel = require("../model/service");
