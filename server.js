@@ -11,6 +11,7 @@ const userRoutes = require("./routes/userRouts");
 const serviceModel = require("./model/service");
 const Registration = require("./model/user");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
+const serviceRoutes = require("./routes/serviceRoutes");
 
 require("dotenv").config({ path: "./config/keys.env" });
 
@@ -19,7 +20,6 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(express.static("public"));
 app.use(express.json());
-
 
 app.get("/", (req, res) => {
   res.send("hiiii");
@@ -148,9 +148,11 @@ app.get("/services", (req, res) => {
     );
 });
 
+aap.use("/api/services", serviceRoutes);
+
 app.use("/api/users", userRoutes);
-app.use(notFound)
-app.use(errorHandler)
+app.use(notFound);
+app.use(errorHandler);
 
 app.use(fileUpload());
 app.use(
