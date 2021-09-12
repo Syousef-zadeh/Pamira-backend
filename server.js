@@ -17,132 +17,53 @@ require("dotenv").config({ path: "./config/keys.env" });
 
 const app = express();
 app.use(cors());
+//app.set("view engine", "ejs");
 app.use(bodyParser.json());
-app.use(express.static("public"));
+app.use(express.static("./uploads"));
 app.use(express.json());
 
 app.get("/", (req, res) => {
   res.send("hiiii");
 });
 
-app.post("/services/add", (req, res) => {
-  console.log("Hi");
-  const newService = {
-    serviceName: "skin care",
-    serviceDescription: "",
-    serviceImage: "../01-starting-project/src/assets/skincare.jpg",
-  };
-  const service = new serviceModel(newService);
-  console.log(service);
-  service.save().then((service) => {
-    req.files.photos.name = `pro_pic_${service._id}${
-      path.parse(req.files.photos.name).ext
-    }`;
-    req.files.photos.mv(`public/uploads/${req.files.photos.name}`).then(() => {
-      serviceModel.updateOne(
-        { _id: service._id },
-        {
-          serviceImage: req.files.photos.name,
-        }
-      );
-    });
-  });
-});
-
-app.get("/services", (req, res) => {
-  serviceModel.find({}, (err, foundServices) => {
-    if (!err) {
-      res.json(foundServices);
-      console.log(foundServices);
-    } else {
-      res.send(err);
-    }
-  });
-});
-
-// app.post("/sign-up", (req, res) => {
+// app.post("/services/add", (req, res) => {
 //   console.log("Hi");
-//   const newUser = {
-//     username: "Admin",
-//     password: "Parsa1373",
-//     type: "Admin",
+//   const newService = {
+//     serviceName: "skin care",
+//     serviceDescription: "",
+//     serviceImage: "../01-starting-project/src/assets/skincare.jpg",
 //   };
-//   const signup = new Registration(newUser);
-//   console.log(signup);
-//   signup.save();
+//   const service = new serviceModel(newService);
+//   console.log(service);
+//   service.save().then((service) => {
+//     req.files.photos.name = `pro_pic_${service._id}${
+//       path.parse(req.files.photos.name).ext
+//     }`;
+//     req.files.photos.mv(`public/uploads/${req.files.photos.name}`).then(() => {
+//       serviceModel.updateOne(
+//         { _id: service._id },
+//         {
+//           serviceImage: req.files.photos.name,
+//         }
+//       );
+//     });
+//   });
 // });
-
-// app.post("/dashboard", (req, res) => {
-//   // let usernameErr = [];
-//   // let passwordErr = [];
-//   console.log(req.body);
-//   // if (req.body.username == "") {
-//   //   usernameErr.push("Please enter your username");
-//   // }
-
-//   // if (req.body.password == "") {
-//   //   passwordErr.push("Please enter your password");
-//   // }
-
-//   // if (usernameErr != 0 || passwordErr != 0) {
-//   //   res.render("/administrator/login", {
-//   //     psassErr: passwordErr,
-//   //     userErr: usernameErr,
-//   //   });
-//   //} else {
-//   //  console.log(req.body.username);
-//   Registration.findOne({ username: req.body.username })
-//     .then((user) => {
-//       const error = [];
-//       if (user == null) {
-//         error.push("Sorry your username and/or password not found");
-//         res.render("/dashboard", {
-//           error,
-//         });
-//       } else {
-//         bcrypt
-//           .compare(req.body.password, user.password)
-//           .then((isMatch) => {
-//             if (isMatch) {
-//               req.session.userDocument = user;
-//               res.redirect("/dashboard");
-//             } else {
-//               const passwordError = [];
-//               passwordError.push("Sorry your password is incorrect");
-//               res.render("dashboard", {
-//                 passwordError,
-//               });
-//             }
-//           })
-//           .catch((err) => console.log(`Error1 GOV2 ${err}`));
-//       }
-//     })
-//     .catch((err) => console.log(`Error ${err}`));
-//   // }
-// });
-
-app.get("/dashboard/profile");
 
 // app.get("/services", (req, res) => {
-//   serviceModel
-//     .find()
-//     .then((service) => {
-//       const filterServices = service.map((srv) => {
-//         return {
-//           id: srv._id,
-//           serviceName: srv.serviceName,
-//           serviceDescription: srv.serviceDescription,
-//           serviceImage: srv.serviceImage,
-//         };
-//       });
-//       res.render("services/service", {
-//         data: filterServices,
-//       });
-//     })
-//     .catch((err) =>
-//       console.log(`Error happened when pulling from the database :${err}`)
-//     );
+//   serviceModel.find({}, (err, foundServices) => {
+//     if (!err) {
+//       res.json(foundServices);
+//       console.log(foundServices);
+//     } else {
+//       res.send(err);
+//     }
+//   });
 // });
+
+
+
+app.get("/dashboard/profile");
 
 app.use("/api/services", serviceRoutes);
 

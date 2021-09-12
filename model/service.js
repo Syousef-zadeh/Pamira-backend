@@ -7,14 +7,14 @@ const serviceSchema = new Schema({
   },
   serviceName: {
     type: String,
-    required: true,
+    //required: true,
   },
   serviceDescription: {
     type: String,
   },
   serviceImage: {
-    type: String,
-   // required: true,
+    data: Buffer,
+    contentType: String
   },
 });
 const serviceModel = mongoose.model("Service", serviceSchema);
