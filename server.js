@@ -17,6 +17,7 @@ require("dotenv").config({ path: "./config/keys.env" });
 
 const app = express();
 app.use(cors());
+//app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use(express.static("./uploads"));
 app.use(express.json());
