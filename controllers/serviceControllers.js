@@ -2,51 +2,96 @@ const servicModel = require("../model/service");
 const asyncHandler = require("express-async-handler");
 const multer = require("multer");
 const router = require("../routes/userRouts");
-const fs = require('fs');
+const fs = require("fs");
+const sharp = require("sharp");
+const imagemin = require('imagemin');
+const imageminPngquant = require("imagemin-pngquant");
+const imageminJpegtran = require("imagemin-jpegtran");
 
-// const storage = multer.diskStorage({
-//   destination: (req, file, callback) => {
-//     callback(null, "/uploads/");
-//   },
-//   filename: (req, file, callback) => {
-//     callback(null, file.originalname);
-//   },
-// });
-// const upload = multer({ storage: storage });
+
 
 const storage = multer.diskStorage({
   destination: function (req, res, cb) {
-      cb(null, '/uploads/')
-  }
+    cb(null, "./uploads/");
+  },
 });
+// const imgSize = async() =>{
+//   const files = await imagemin(['images/*.{jpg,png}'], {
+//     destination: './uploads/',
+//     plugins: [
+//       imageminJpegtran(),
+//       imageminPngquant({
+//         quality: [0.6, 0.8]
+//       })
+//     ]
+//   })
+//     //   const files = await imagemin(["source_dir/*.jpg", "another_dir/*.jpg"], {
+//     //   destination: "destination_dir",
+//     //   plugins: [imageminMozjpeg({ quality: 50 })],
+//     // });
+//   console.log("file");
+//   console.log(files);
+// };
 
-const upload = multer({ storage: storage });
+//Add a singel service
+const fileFilter =  (req, file, cb) => {
+  // await sharp(req.file.buffer).resize({width: 612, height:250})
+  // reject a file
+
+  if (
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg"
+    ) {
+      
+    // console.log("file");
+    // console.log(files);
+    // const files = await imagemin(["source_dir/*.jpg", "another_dir/*.jpg"], {
+    //   destination: "destination_dir",
+    //   plugins: [imageminMozjpeg({ quality: 50 })],
+    // });
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+const upload = multer({
+  
+  storage: storage,
+  // limits: {
+  //   fileSize: 1024 * 1024 * 5,
+  // },
+  //imgSize: imgSize,
+  fileFilter: fileFilter,
+});
 
 //Add a singel service
 const serviceAdd =
   (upload.single("serviceImage"),
   (req, res) => {
-    console.log(req.body);
-    const buff = Buffer.from(req.body.file, 'utf-8');
-    var newService = new servicModel;
-      newService.serviceName = req.body.serviceName;
-      newService.serviceDescription = req.body.serviceDescription;
-      newService.serviceImage.data =  buff;
-      newService.serviceImage.contentType = 'image/jpg'
-      newService.save()
+    const buff = Buffer.from(req.body.file, "utf-8");
+
+    var newService = new servicModel();
+    newService.serviceName = req.body.serviceName;
+    newService.serviceDescription = req.body.serviceDescription;
+    newService.serviceImage.data = buff;
+    newService.serviceImage.contentType = "image/jpg";
+    newService
+      .save()
       .then(() => res.json("New Service Posted"))
       .catch((err) => res.status(400).json(`Error: ${err}`));
-    // const newService = new servicModel({
-    //   serviceName: req.body.serviceName,
-    //   serviceDescription: req.body.serviceDescription,
-    //   serviceImage: req.body.file,
-    // });
-
-     
-      
-    // }
-
   });
+
+//get
+const services = (req, res) => {
+  servicModel.find({}, (err, foundServices) => {
+    if (!err) {
+      res.json(foundServices);
+    } else {
+      res.send(err);
+    }
+  });
+};
 
 //Update service
 const serviceUpdate =
@@ -71,4 +116,4 @@ const serviceDelete = (req, res) => {
     .catch((err) => res.status(400).json(`Error: ${err}`));
 };
 
-module.exports = { serviceAdd, serviceUpdate, serviceDelete };
+module.exports = { serviceAdd, serviceUpdate, serviceDelete, services };

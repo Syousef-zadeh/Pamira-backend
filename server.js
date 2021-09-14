@@ -26,30 +26,6 @@ app.get("/", (req, res) => {
   res.send("hiiii");
 });
 
-// app.post("/services/add", (req, res) => {
-//   console.log("Hi");
-//   const newService = {
-//     serviceName: "skin care",
-//     serviceDescription: "",
-//     serviceImage: "../01-starting-project/src/assets/skincare.jpg",
-//   };
-//   const service = new serviceModel(newService);
-//   console.log(service);
-//   service.save().then((service) => {
-//     req.files.photos.name = `pro_pic_${service._id}${
-//       path.parse(req.files.photos.name).ext
-//     }`;
-//     req.files.photos.mv(`public/uploads/${req.files.photos.name}`).then(() => {
-//       serviceModel.updateOne(
-//         { _id: service._id },
-//         {
-//           serviceImage: req.files.photos.name,
-//         }
-//       );
-//     });
-//   });
-// });
-
 // app.get("/services", (req, res) => {
 //   serviceModel.find({}, (err, foundServices) => {
 //     if (!err) {
