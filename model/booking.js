@@ -22,6 +22,9 @@ const bookingSchema = new Schema({
     type: String,
     required: true,
   },
+  Comments: {
+    type: String,
+  },
 });
 const bookingModel = mongoose.model("Booking", bookingSchema);
 module.exports = bookingModel;
