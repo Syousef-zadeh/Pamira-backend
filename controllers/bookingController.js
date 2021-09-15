@@ -15,3 +15,5 @@ const addBooking = asyncHandler(async (req, res) => {
     res.status(400).json(`Error: ${err}`);
   }
 });
+
+module.exports = { addBooking };
