@@ -4,11 +4,9 @@ const multer = require("multer");
 const router = require("../routes/userRouts");
 const fs = require("fs");
 const sharp = require("sharp");
-const imagemin = require('imagemin');
+const imagemin = require("imagemin");
 const imageminPngquant = require("imagemin-pngquant");
 const imageminJpegtran = require("imagemin-jpegtran");
-
-
 
 const storage = multer.diskStorage({
   destination: function (req, res, cb) {
@@ -34,29 +32,18 @@ const storage = multer.diskStorage({
 // };
 
 //Add a singel service
-const fileFilter =  (req, file, cb) => {
-  // await sharp(req.file.buffer).resize({width: 612, height:250})
-  // reject a file
-
+const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === "image/jpeg" ||
     file.mimetype === "image/png" ||
     file.mimetype === "image/jpg"
-    ) {
-      
-    // console.log("file");
-    // console.log(files);
-    // const files = await imagemin(["source_dir/*.jpg", "another_dir/*.jpg"], {
-    //   destination: "destination_dir",
-    //   plugins: [imageminMozjpeg({ quality: 50 })],
-    // });
+  ) {
     cb(null, true);
   } else {
     cb(null, false);
   }
 };
 const upload = multer({
-  
   storage: storage,
   // limits: {
   //   fileSize: 1024 * 1024 * 5,
@@ -75,7 +62,9 @@ const serviceAdd =
     newService.serviceName = req.body.serviceName;
     newService.serviceDescription = req.body.serviceDescription;
     newService.serviceImage.data = buff;
-    newService.serviceImage.contentType = "image/jpg";
+    newService.serviceImage.contentType =
+      "image/jpg" || "image/jpeg" || "image/png";
+
     newService
       .save()
       .then(() => res.json("New Service Posted"))

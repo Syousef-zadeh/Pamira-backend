@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const bookingModel = new Schema({
+const bookingSchema = new Schema({
   dateCreation: {
     type: Date,
     default: Date.now(),
@@ -23,5 +23,5 @@ const bookingModel = new Schema({
     required: true,
   },
 });
-const bookingModel = mongoose.model("Booking", bookingModel);
+const bookingModel = mongoose.model("Booking", bookingSchema);
 module.exports = bookingModel;
