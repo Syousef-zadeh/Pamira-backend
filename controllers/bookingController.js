@@ -9,7 +9,6 @@ const addBooking = asyncHandler(async (req, res) => {
     newBooking.bookingDate = req.body.bookingDate;
     newBooking.procedure = req.body.procedure;
 
-    console.log(newBooking);
     newBooking.save();
     res.status(201).json("Successfully Booked!");
   } catch {
@@ -17,4 +16,14 @@ const addBooking = asyncHandler(async (req, res) => {
   }
 });
 
-module.exports = { addBooking };
+const getBooking = async (req, res) => [
+  bookingModel.find({}, (err, foundBooking) => {
+    if (!err) {
+      res.json(foundBooking);
+    } else {
+      res.send(err);
+    }
+  }),
+];
+
+module.exports = { addBooking, getBooking };
