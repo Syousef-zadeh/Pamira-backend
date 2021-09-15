@@ -12,6 +12,7 @@ const serviceModel = require("./model/service");
 const Registration = require("./model/user");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 const serviceRoutes = require("./routes/serviceRoutes");
+const bookingRoutes = require("./routes/bookingRoutes");
 
 require("dotenv").config({ path: "./config/keys.env" });
 
@@ -23,26 +24,12 @@ app.use(express.static("./uploads"));
 app.use(express.json());
 
 app.get("/", (req, res) => {
-  res.send("hiiii");
+  res.send("Pamira Clinic");
 });
 
-// app.get("/services", (req, res) => {
-//   serviceModel.find({}, (err, foundServices) => {
-//     if (!err) {
-//       res.json(foundServices);
-//       console.log(foundServices);
-//     } else {
-//       res.send(err);
-//     }
-//   });
-// });
-
-
-
-app.get("/dashboard/profile");
 
 app.use("/api/services", serviceRoutes);
-
+app.use("/api/booking", bookingRoutes);
 app.use("/api/users", userRoutes);
 app.use(notFound);
 app.use(errorHandler);
