@@ -6,10 +6,11 @@ const addBooking = asyncHandler(async (req, res) => {
   try {
     newBooking.fullName = req.body.fullName;
     newBooking.phoneNumber = req.body.phoneNumber;
-    newBooking.bookingDate = req.body.bookingDate;
+    newBooking.desiredDate = req.body.desiredDate;
     newBooking.procedure = req.body.procedure;
     newBooking.comments = req.body.comments;
 
+    console.log(newBooking);
     newBooking.save();
     res.status(201).json("Successfully Booked!");
   } catch {

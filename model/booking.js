@@ -14,7 +14,7 @@ const bookingSchema = new Schema({
     type: String,
     required: true,
   },
-  bookingDate: {
+  desiredDate: {
     type: String,
     required: true,
   },
