@@ -22,7 +22,7 @@ const bookingSchema = new Schema({
     type: String,
     required: true,
   },
-  Comments: {
+  comments: {
     type: String,
   },
 });
