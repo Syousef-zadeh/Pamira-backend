@@ -14,7 +14,7 @@ const addBooking = asyncHandler(async (req, res) => {
     newBooking
       .save()
       .then(() => res.status(201).json("Successfully Booked!"))
-      .catch((errsss) => res.status(400).json(`Error: ${err}`));
+      .catch((err) => res.status(400).json(`Error: ${err}`));
   } catch {
     res.status(400).json(`Error: ${err}`);
   }
