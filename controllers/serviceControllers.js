@@ -81,12 +81,22 @@ const services = (req, res) => {
     }
   });
 };
-const serviceDetails = ()=>{
-  servicModel
-    .findByIdAndDelete(req.params.id)
-    .then(() => res.json())
-    .catch((err) => res.status(400).json(`Error: ${err}`));
-}
+const serviceDetails = (req, res) => {
+  // servicModel
+  //   //.findById(req.params.id)
+  //   .find()
+  //   .then(() => res.json())
+  servicModel.findById(req.params.id, (err, foundServices) => {
+    if (!err) {
+      res.json(foundServices);
+      console.log(foundServices);
+    } else {
+      res.send(err);
+    }
+    //.catch((err) => res.status(400).json(`Error: ${err}`));
+  });
+};
+
 //Update service
 const serviceUpdate =
   (upload.single("serviceUpdate"),
@@ -110,4 +120,10 @@ const serviceDelete = (req, res) => {
     .catch((err) => res.status(400).json(`Error: ${err}`));
 };
 
-module.exports = { serviceAdd, serviceUpdate, serviceDelete, services, serviceDetails };
+module.exports = {
+  serviceAdd,
+  serviceUpdate,
+  serviceDelete,
+  services,
+  serviceDetails,
+};
