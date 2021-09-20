@@ -81,7 +81,12 @@ const services = (req, res) => {
     }
   });
 };
-
+const serviceDetails = ()=>{
+  servicModel
+    .findByIdAndDelete(req.params.id)
+    .then(() => res.json())
+    .catch((err) => res.status(400).json(`Error: ${err}`));
+}
 //Update service
 const serviceUpdate =
   (upload.single("serviceUpdate"),
@@ -105,4 +110,4 @@ const serviceDelete = (req, res) => {
     .catch((err) => res.status(400).json(`Error: ${err}`));
 };
 
-module.exports = { serviceAdd, serviceUpdate, serviceDelete, services };
+module.exports = { serviceAdd, serviceUpdate, serviceDelete, services, serviceDetails };
