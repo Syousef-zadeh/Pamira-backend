@@ -86,14 +86,13 @@ const serviceDetails = (req, res) => {
   //   //.findById(req.params.id)
   //   .find()
   //   .then(() => res.json())
-  servicModel.findById(req.params.id, (err, foundServices) => {
-    if (!err) {
-      res.json(foundServices);
-      console.log(foundServices);
-    } else {
-      res.send(err);
+  servicModel.findById(req.params.id, function (err, docs) {
+    if (err){
+        console.log(err);
     }
-    //.catch((err) => res.status(400).json(`Error: ${err}`));
+    else{
+      res.json(docs);
+    }
   });
 };
 
