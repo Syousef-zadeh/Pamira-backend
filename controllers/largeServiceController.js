@@ -57,13 +57,6 @@ const getService = (req, res) => {
 };
 
 
-const serviceDelete = (req, res) => {
-    servicModel
-      .findByIdAndDelete(req.params.id)
-      .then(() => res.json("Service DELETED!"))
-      .catch((err) => res.status(400).json(`Error: ${err}`));
-  };
-
   const serviceDelete = (req, res) => {
     serviceLargeModel
       .findByIdAndDelete(req.params.id)
