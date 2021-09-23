@@ -72,16 +72,17 @@ const services = (req, res) => {
     if (!err) {
       res.json(foundServices);
     } else {
-      res.send(err);
+      // res.send(err);
+      res.status(400);
+      throw new Error("Error Occured!");
     }
   });
 };
 const serviceDetails = (req, res) => {
   servicModel.findById(req.params.id, function (err, docs) {
-    if (err){
-        console.log(err);
-    }
-    else{
+    if (err) {
+      console.log(err);
+    } else {
       res.json(docs);
     }
   });
