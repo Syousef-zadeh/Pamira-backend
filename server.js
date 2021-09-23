@@ -13,12 +13,12 @@ const Registration = require("./model/user");
 const { notFound, errorHandler } = require("./middlewares/errorMiddleware");
 const serviceRoutes = require("./routes/serviceRoutes");
 const bookingRoutes = require("./routes/bookingRoutes");
+const largeServices = require("./routes/largeService");
 
 require("dotenv").config({ path: "./config/keys.env" });
 
 const app = express();
 app.use(cors());
-//app.set("view engine", "ejs");
 app.use(bodyParser.json());
 app.use(express.static("./uploads"));
 app.use(express.json());
@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
   res.send("Pamira Clinic");
 });
 
-
+app.use("/api/service/pamira", largeServices);
 app.use("/api/services", serviceRoutes);
 app.use("/api/booking", bookingRoutes);
 app.use("/api/users", userRoutes);

@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const serviceSchema = new Schema({
+const serviceLargeSchema = new Schema({
   dateCreation: {
     type: Date,
     default: Date.now(),
@@ -8,6 +8,9 @@ const serviceSchema = new Schema({
   serviceName: {
     type: String,
     required: true,
+  },
+  serviceShortDes: {
+    type: String,
   },
   serviceDescription: {
     type: String,
@@ -17,5 +20,5 @@ const serviceSchema = new Schema({
     contentType: String
   },
 });
-const serviceModel = mongoose.model("Service", serviceSchema);
-module.exports = serviceModel;
+const serviceLargeModel = mongoose.model("Larg Service", serviceLargeSchema);
+module.exports = serviceLargeModel;

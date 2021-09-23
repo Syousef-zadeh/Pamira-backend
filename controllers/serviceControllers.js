@@ -2,11 +2,6 @@ const servicModel = require("../model/service");
 const asyncHandler = require("express-async-handler");
 const multer = require("multer");
 const router = require("../routes/userRouts");
-const fs = require("fs");
-const sharp = require("sharp");
-const imagemin = require("imagemin");
-const imageminPngquant = require("imagemin-pngquant");
-const imageminJpegtran = require("imagemin-jpegtran");
 
 const storage = multer.diskStorage({
   destination: function (req, res, cb) {
@@ -82,10 +77,6 @@ const services = (req, res) => {
   });
 };
 const serviceDetails = (req, res) => {
-  // servicModel
-  //   //.findById(req.params.id)
-  //   .find()
-  //   .then(() => res.json())
   servicModel.findById(req.params.id, function (err, docs) {
     if (err){
         console.log(err);
