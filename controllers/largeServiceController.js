@@ -56,6 +56,15 @@ const getService = (req, res) => {
   });
 };
 
+const lgServiceDetails = (req, res) => {
+  serviceLargeModel.findById(req.params.id, function (err, docs) {
+    if (err) {
+      console.log(err);
+    } else {
+      res.json(docs);
+    }
+  });
+};
 
   const serviceDelete = (req, res) => {
     serviceLargeModel
@@ -64,4 +73,4 @@ const getService = (req, res) => {
       .catch((err) => res.status(400).json(`Error: ${err}`));
   };
   
-module.exports = { addLargeService, getService, serviceDelete };
+module.exports = { addLargeService, getService, serviceDelete, lgServiceDetails };

@@ -10,6 +10,7 @@ const router = express.Router();
 router.route("/").get(getService);
 router.route("/add").post(addLargeService);
 router.route("/:id").delete(serviceDelete);
+router.route("/details/:id").get(serviceDetails);
 
 
 module.exports = router;
