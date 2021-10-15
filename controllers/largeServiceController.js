@@ -66,6 +66,7 @@ const lgServiceDetails = (req, res) => {
   });
 };
 
+
   const serviceDelete = (req, res) => {
     serviceLargeModel
       .findByIdAndDelete(req.params.id)
