@@ -88,6 +88,7 @@ const serviceDetails = (req, res) => {
   });
 };
 
+
 //Update service
 const serviceUpdate =
   (upload.single("serviceUpdate"),
