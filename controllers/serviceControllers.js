@@ -98,6 +98,7 @@ const serviceUpdate =
         (service.serviceDescription = req.body.serviceName),
         (service.serviceImage = req.file.originalname);
     });
+    
     service
       .save()
       .then(() => res.json("Service UPDATED!"))
