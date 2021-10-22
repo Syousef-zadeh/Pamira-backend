@@ -20,5 +20,6 @@ const serviceLargeSchema = new Schema({
     contentType: String
   },
 });
+
 const serviceLargeModel = mongoose.model("Larg Service", serviceLargeSchema);
 module.exports = serviceLargeModel;
